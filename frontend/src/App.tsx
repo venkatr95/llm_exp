@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchFormData, fetchUUIDs } from "./api/formApi";
 import "./App.css";
 import FormFields from "./components/FormFields";
+import StatusPanel from "./components/StatusPanel";
 import UUIDComboBox from "./components/UUIDComboBox";
 import { FormData } from "./types/FormData";
 
@@ -22,6 +23,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [progress, setProgress] = useState(0);
+  const [showStatusPanel, setShowStatusPanel] = useState(false);
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -113,6 +115,14 @@ function App() {
         </button>
         <h1>🔐 UUID Form Filler</h1>
         <p className="subtitle">AI-powered form filling using OpenAI</p>
+        <button
+          className="intelligence-button"
+          onClick={() => setShowStatusPanel(true)}
+          aria-label="View system intelligence"
+          title="View database insights"
+        >
+          Intelligence
+        </button>
       </header>
 
       <main className="main-content">
@@ -144,6 +154,11 @@ function App() {
       <footer className="app-footer">
         <p>Powered by OpenAI GPT & FastAPI</p>
       </footer>
+
+      <StatusPanel
+        isOpen={showStatusPanel}
+        onClose={() => setShowStatusPanel(false)}
+      />
     </div>
   );
 }

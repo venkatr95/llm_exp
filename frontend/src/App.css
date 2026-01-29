@@ -35,6 +35,64 @@
   transform: scale(1.05);
 }
 
+.intelligence-button {
+  background: var(--button-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.intelligence-button:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.intelligence-button:active {
+  transform: translateY(0);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .intelligence-button {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .form-container {
+    padding: 1rem;
+  }
+
+  .form-field {
+    font-size: 0.9rem;
+  }
+
+  .theme-toggle {
+    font-size: 1.2rem;
+    padding: 0.4rem;
+  }
+}
+
 .app-header h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
@@ -157,6 +215,102 @@
   gap: 1.25rem;
 }
 
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.edit-button {
+  background: var(--button-bg);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.edit-button:hover {
+  background: var(--button-hover-bg);
+}
+
+.edit-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.save-button {
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.save-button:hover:not(:disabled) {
+  background: #16a34a;
+}
+
+.save-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background: var(--bg-tertiary);
+  border-color: var(--text-secondary);
+}
+
+.cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.save-status {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.save-status.saved {
+  color: #22c55e;
+}
+
+.save-status.error {
+  color: #ef4444;
+}
+
+.autosave-hint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -248,24 +402,165 @@
   font-size: 0.9rem;
 }
 
+/* Enhanced Mobile Responsiveness */
 @media (max-width: 768px) {
   .app-container {
-    padding: 1rem;
+    padding: 0.5rem;
+    padding-top: 1rem;
+  }
+
+  .app-header {
+    padding: 1rem 0.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .app-header h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+  }
+
+  .theme-toggle {
+    padding: 0.4rem 0.7rem;
+    font-size: 1.1rem;
+    border-radius: 20px;
   }
 
   .form-container {
-    padding: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .form-fields {
+    gap: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.95rem;
+  }
+
+  .form-group textarea {
+    min-height: 80px;
+  }
+
+  .uuid-selector {
+    margin-bottom: 1.5rem;
   }
 
   .uuid-input-container {
     flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .uuid-input,
+  .dropdown-button {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.95rem;
   }
 
   .dropdown-menu {
     min-width: 100%;
+    max-height: 250px;
+    left: 0;
+    right: 0;
+  }
+
+  .dropdown-item {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .form-actions {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .edit-button,
+  .save-button,
+  .cancel-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .edit-controls {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .save-status,
+  .autosave-hint {
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  .error-message {
+    padding: 0.85rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .loading-container {
+    margin-bottom: 0.75rem;
+  }
+
+  .loading-message {
+    padding: 0.85rem;
+    font-size: 0.9rem;
+  }
+
+  .app-footer {
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  .intelligence-button {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.9rem;
+  }
+
+  .form-container {
+    padding: 0.75rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 0.9rem;
+  }
+
+  .theme-toggle {
+    padding: 0.35rem 0.6rem;
+    font-size: 1rem;
   }
 }
