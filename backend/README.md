@@ -30,7 +30,23 @@
    copy .env.example .env
    ```
 
-   Then edit `.env` and add your OpenAI API key.
+   Then edit `.env` and add your OpenAI API key or configure LM Studio.
+
+   **Option A - OpenAI (Cloud):**
+
+   ```
+   LLM_PROVIDER=openai
+   OPENAI_API_KEY=sk-your-key-here
+   ```
+
+   **Option B - LM Studio (Local):**
+
+   ```
+   LLM_PROVIDER=lmstudio
+   LMSTUDIO_MODEL=gemma-3
+   ```
+
+   📖 See [LMSTUDIO_SETUP.md](LMSTUDIO_SETUP.md) for detailed LM Studio setup instructions.
 
 5. **Run the server:**
    ```bash
@@ -62,6 +78,20 @@ python main.py
 
 ## Environment Variables
 
-Required in `.env`:
+Configuration in `.env`:
 
-- `OPENAI_API_KEY` - Your OpenAI API key
+### LLM Provider Selection
+
+- `LLM_PROVIDER` - Choose "openai" or "lmstudio" (default: openai)
+
+### OpenAI Configuration (when LLM_PROVIDER=openai)
+
+- `OPENAI_API_KEY` - Your OpenAI API key (required)
+- `OPENAI_MODEL` - Model to use (default: gpt-4o-mini)
+
+### LM Studio Configuration (when LLM_PROVIDER=lmstudio)
+
+- `LMSTUDIO_MODEL` - Model name (default: gemma-3)
+- LM Studio server must be running at `http://localhost:1234`
+
+For detailed LM Studio setup, see [LMSTUDIO_SETUP.md](LMSTUDIO_SETUP.md)

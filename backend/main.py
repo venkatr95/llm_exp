@@ -7,6 +7,10 @@ from database import SessionLocal, init_db
 from models import FormData
 from agent import UUIDAgent
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = FastAPI(title="UUID Form Filler Agent API")
 
@@ -22,8 +26,23 @@ app.add_middleware(
 # Initialize database
 init_db()
 
-# Initialize OpenAI agent
-agent = UUIDAgent(api_key=os.getenv("OPENAI_API_KEY"))
+# Get LLM provider from environment (default to openai)
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai").lower()
+
+# Initialize agent based on provider
+if LLM_PROVIDER == "lmstudio":
+    print("Using LM Studio with locally hosted model")
+    agent = UUIDAgent(
+        provider="lmstudio",
+        model=os.getenv("LMSTUDIO_MODEL", "gemma-3")
+    )
+else:
+    print("Using OpenAI API")
+    agent = UUIDAgent(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        provider="openai",
+        model=os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+    )
 
 
 class UUIDRequest(BaseModel):
@@ -59,7 +78,7 @@ async def get_all_uuids():
 
 @app.post("/api/get-form-data", response_model=FormResponse)
 async def get_form_data(request: UUIDRequest):
-    """Get form data by UUID using OpenAI agent"""
+    """Get form data by UUID using LLM agent"""
     db = SessionLocal()
     try:
         # First, try to get data from database
@@ -94,9 +113,12 @@ async def get_form_data(request: UUIDRequest):
 @app.get("/api/health")
 async def health_check():
     """Health check endpoint"""
+    llm_provider = os.getenv("LLM_PROVIDER", "openai").lower()
     return {
         "status": "healthy",
-        "openai_configured": bool(os.getenv("OPENAI_API_KEY"))
+        "llm_provider": llm_provider,
+        "openai_configured": bool(os.getenv("OPENAI_API_KEY")),
+        "lmstudio_enabled": llm_provider == "lmstudio"
     }
 
 
